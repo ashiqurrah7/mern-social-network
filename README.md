@@ -1,4 +1,4 @@
-# MERN Social App
+# DevConnect
 
 ## Available Scripts
 
