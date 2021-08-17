@@ -1,5 +1,7 @@
 # DevConnect
 
+A social media platform for developers made with MERN stack.
+
 ## Available Scripts
 
 In the project directory, you can run:
