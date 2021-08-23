@@ -1,6 +1,11 @@
-import React, {useState} from "react";
-import { Fragment } from "react";
-const Register = () => {
+import React, {Fragment, useState} from "react";
+import {connect} from 'react-redux';
+import {Link, Redirect} from 'react-router-dom';
+import { setAlert } from "../../actions/alert";
+import { register } from "../../actions/auth";
+import PropTypes from 'prop-types';
+
+const Register = ({setAlert, register, isAuthenticated}) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -10,16 +15,22 @@ const Register = () => {
 
   const onChange = e => setFormData({...formData, [e.target.name]: e.target.value});
 
-  const onSubmit = e => {
+  const onSubmit = async e => {
       e.preventDefault();
       if(password !== password2){
-          console.log('Passwords do not match');
+          setAlert('Passwords do not match', 'danger');
       } else {
-          console.log(formData);
+          register({name, email, password});
       }
   }
 
+  //Redirect if loggin in
+  if(isAuthenticated){
+    return <Redirect to='/dashboard' />
+  }
+
   const { name, email, password, password2 } = formData;
+
   return (
     <Fragment>
       <h1 className="large text-primary">Sign Up</h1>
@@ -60,10 +71,20 @@ const Register = () => {
         <input type="submit" className="btn btn-primary" value="Register" />
       </form>
       <p className="my-1">
-        Already have an account? <a href="login.html">Sign In</a>
+        Already have an account? <Link to='/login'>Sign In</Link>
       </p>
     </Fragment>
   );
 };
 
-export default Register;
+Register.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+}
+
+const mapStateToProps = state => ({
+  isAuthenticated:state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, {setAlert})(Register);
