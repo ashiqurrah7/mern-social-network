@@ -2,7 +2,6 @@ import React from 'react'
 import { Route, Switch } from "react-router-dom";
 import Login from "../auth/Login";
 import Register from "../auth/Register";
-import "../App.css";
 import Alert from "../layout/Alert";
 import Dashboard from "../dashboard/Dashboard";
 import CreateProfile from "../profile-forms/CreateProfile";
