@@ -1,16 +1,11 @@
 import axios from "axios";
 import { setAlert } from "./alert";
 import {
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
-  REGISTER_SUCCESS,
-  REGISTER_FAIL,
-  USER_LOADED,
-  AUTH_ERROR,
-  LOGOUT,
   UPDATE_PROFILE,
   PROFILE_ERROR,
   GET_PROFILE,
+  GET_PROFILES,
+  GET_REPOS,
   DELETE_ACCOUNT,
   CLEAR_PROFILE,
 } from "./types";
@@ -191,7 +186,7 @@ export const deleteEducation = (id) => async (dispatch) => {
 export const deleteAccount = () => async (dispatch) => {
   if (window.confirm("Are you sure? This can NOT be undone!")) {
     try {
-      const res = await axios.delete(`/api/profile`);
+      await axios.delete(`/api/profile`);
       dispatch({
         type: CLEAR_PROFILE,
       });
@@ -208,5 +203,68 @@ export const deleteAccount = () => async (dispatch) => {
         },
       });
     }
+  }
+};
+
+// Get all profiles
+export const getProfiles = () => async (dispatch) => {
+  dispatch({
+    type:CLEAR_PROFILE
+  });
+  try {
+    const res = await axios.get("/api/profile");
+
+    dispatch({
+      type: GET_PROFILES,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        message: err.response.statusText,
+        status: err.response.status,
+      },
+    });
+  }
+};
+
+// Get profile by ID
+export const getProfile = (userId) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/api/profile/user/${userId}`);
+
+    dispatch({
+      type: GET_PROFILE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        message: err.response.statusText,
+        status: err.response.status,
+      },
+    });
+  }
+};
+
+// Get Github repos
+export const getRepos = (username) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/api/profile/github/${username}`);
+
+    dispatch({
+      type: GET_REPOS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        message: err.response.statusText,
+        status: err.response.status,
+      },
+    });
   }
 };

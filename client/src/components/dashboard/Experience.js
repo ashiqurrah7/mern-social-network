@@ -8,7 +8,7 @@ const Experience = ({ experience, deleteExperience }) => {
   const experiences = experience.map((exp) => (
     <tr key={exp._id}>
       <td>{exp.company}</td>
-      <td className="hide-sm">{exp.location}</td>
+      {exp.location && <td className="hide-sm">{exp.location}</td>}
       <td className="hide-sm">{exp.title}</td>
       <td className="hide-sm">
         <Moment format="YYYY/MM/DD">{exp.from}</Moment> -{" "}
@@ -53,4 +53,4 @@ Experience.propTypes = {
   deleteExperience: PropTypes.func.isRequired,
 };
 
-export default connect(null, deleteExperience)(Experience);
+export default connect(null, {deleteExperience})(Experience);

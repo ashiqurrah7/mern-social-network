@@ -77,7 +77,7 @@ router.post(
     if (instagram) profileFields.instagram = instagram;
     if (linkedin) profileFields.linkedin = linkedin;
     if (skills) {
-      profileFields.skills = skills.split(",").map((skill) => skill.trim());
+      profileFields.skills = skills.join().split(",").map((skill) => skill.trim());
     }
 
     // Build social object

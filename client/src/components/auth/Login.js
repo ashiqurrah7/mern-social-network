@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from "react";
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
-import { setAlert } from "../../actions/alert";
 import { login } from "../../actions/auth";
 import PropTypes from 'prop-types';
 
@@ -22,7 +21,7 @@ const Login = ({login, isAuthenticated}) => {
 
   //Redirect if loggin in
   if(isAuthenticated){
-    return <Redirect to='/dashboard' />
+    return <Redirect to='/dash' />
   }
 
   return (
@@ -70,4 +69,4 @@ const mapStateToProps = state => ({
   isAuthenticated:state.auth.isAuthenticated
 });
 
-export default connect(mapStateToProps, {setAlert})(Login);
+export default connect(mapStateToProps, {login})(Login);
